@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomeFragment">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.globant.myapplication.presentation.fragment.HomeFragment"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_first">
+
+        <action
+            android:id="@+id/action_HomeFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
+        <action
+            android:id="@+id/action_HomeFragment_to_CreateFragment"
+            app:destination="@id/CreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/DetailFragment"
+        android:name="com.globant.myapplication.presentation.fragment.DetailFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second">
+
+        <action
+            android:id="@+id/action_DetailFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/CreateFragment"
+        android:name="com.globant.myapplication.presentation.fragment.CreateFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_second">
+
+        <action
+            android:id="@+id/action_CreateFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment" />
+    </fragment>
+</navigation>
