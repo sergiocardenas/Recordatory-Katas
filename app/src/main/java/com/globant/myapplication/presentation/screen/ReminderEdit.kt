@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.globant.myapplication.presentation.state.ReminderState
 import com.globant.myapplication.presentation.state.Urgency
 import com.globant.myapplication.presentation.utils.getDateFormat
@@ -26,14 +25,11 @@ fun DetailReminderEdit(
     var showDialog by remember {mutableStateOf(false)}
     var showDropList by remember {mutableStateOf(false)}
     val expandedIndex = remember { mutableStateOf(-1) }
-    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = detailState.value.date)
 
     var newTitle by remember {mutableStateOf(detailState.value.title)}
     var newDescription by remember {mutableStateOf(detailState.value.description)}
-    var newDate by remember {mutableStateOf(Date(datePickerState.selectedDateMillis!!))}
+    var newDate by remember { mutableStateOf(Date(detailState.value.date)) }
     var newType by remember {mutableStateOf(detailState.value.type)}
-
-    val onDismiss = {showDialog = false}
 
     OutlinedTextField(
         value = newTitle,
@@ -54,42 +50,22 @@ fun DetailReminderEdit(
         modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged {
-                if(it.hasFocus)
+                if (it.hasFocus) {
                     showDialog = true
-            }
-    )
-    if(showDialog){
-        // Date picker
-        Dialog(onDismissRequest = onDismiss) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                DatePicker(
-                    state = datePickerState,
-                    modifier = Modifier.fillMaxWidth(),
-                    dateFormatter = DatePickerFormatter(),
-                    dateValidator = { true },
-                    title = { Text(text = "Select Date") },
-                    colors = DatePickerDefaults.colors()
-                )
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ){
-                    Button(
-                        onClick = {
-                            newDate = Date(datePickerState.selectedDateMillis!!)
-                            onDismiss
-                        },
-                    ) {
-                        Text(text = "OK")
-                    }
                 }
             }
-        }
+    )
+    if(showDialog) {
+        // Date picker
+        ReminderDateTimePicker(
+            currentTime = newDate.time,
+            onDateTimePicked = {new ->
+                newDate = Date(new)
+            },
+            onDismiss = {
+                showDialog = false
+            }
+        )
     }
     if(!showDropList){
         OutlinedTextField(
@@ -99,7 +75,7 @@ fun DetailReminderEdit(
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
-                    if(it.hasFocus)
+                    if (it.hasFocus)
                         showDropList = true
                 }
         )
@@ -147,6 +123,7 @@ fun DetailReminderEdit(
         ) {
             Button(onClick = { onSave(
                 ReminderState(
+                    id = detailState.value.id,
                     title = newTitle,
                     description = newDescription,
                     date = newDate.time,

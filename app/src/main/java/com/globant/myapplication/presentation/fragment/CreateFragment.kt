@@ -8,16 +8,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.globant.myapplication.R
 import com.globant.myapplication.presentation.screen.CreateReminderScreen
-import com.globant.myapplication.presentation.screen.DetailReminderScreen
 import com.globant.myapplication.presentation.viewmodel.CreateViewModel
-import com.globant.myapplication.presentation.viewmodel.DetailViewModel
+import com.globant.myreminders.R
+import dagger.hilt.android.AndroidEntryPoint
 
-
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
+@AndroidEntryPoint
 class CreateFragment : Fragment() {
 
     private lateinit var createViewModel: CreateViewModel
@@ -39,7 +35,6 @@ class CreateFragment : Fragment() {
             }
         }
     }
-
 
     private fun goToActionNavigation(resActionId: Int){
         findNavController().navigate(resId = resActionId)

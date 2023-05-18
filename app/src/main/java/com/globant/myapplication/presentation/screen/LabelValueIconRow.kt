@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.globant.myapplication.R
 import com.globant.myapplication.presentation.state.Urgency
+import com.globant.myreminders.R
 
 @Composable
 fun LabelValueIconRow(label: String, value: String) {

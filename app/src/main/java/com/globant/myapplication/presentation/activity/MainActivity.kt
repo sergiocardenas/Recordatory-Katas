@@ -1,17 +1,18 @@
 package com.globant.myapplication.presentation.activity
 
+import android.os.Build
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import com.globant.myapplication.R
-import com.globant.myapplication.databinding.ActivityMainBinding
+import com.globant.myreminders.R
+import com.globant.myreminders.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -29,8 +30,25 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        requestPermission()
+
         /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()*/
+    }
+
+    fun requestPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val requestPermissionLauncher = registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                /*if (isGranted) {
+                    Snackbar.make(baseContext,"Thanks, you can continue using the app :)",Toast.LENGTH_LONG).show()
+                } else {
+                    Snackbar.make(baseContext,"Sorry, the app only works with permission :(",Toast.LENGTH_LONG).show()
+                }*/
+            }
+            requestPermissionLauncher.launch("android.permission.POST_NOTIFICATIONS")
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

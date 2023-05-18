@@ -3,15 +3,12 @@ package com.globant.myapplication.presentation.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.globant.myapplication.presentation.viewmodel.CreateViewModel
-import com.globant.myapplication.presentation.viewmodel.DetailViewModel
 
 @Composable
 fun CreateReminderScreen(
@@ -19,6 +16,7 @@ fun CreateReminderScreen(
     onExit: () -> Unit
 ) {
     val detailState = viewModel.state.collectAsState()
+    val context = LocalContext.current.applicationContext
 
     Scaffold(
         topBar = { TopAppBar(
@@ -37,7 +35,7 @@ fun CreateReminderScreen(
             DetailReminderEdit(
                 detailState = detailState,
                 onSave = {reminder ->
-                    viewModel.saveReminder(reminder)
+                    viewModel.saveReminder(reminder, context)
                     onExit()
                 },
                 onCancel = onExit

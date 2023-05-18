@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.globant.myapplication.presentation.viewmodel.DetailViewModel
 
@@ -19,6 +20,7 @@ fun DetailReminderScreen(
 ) {
     val detailState = viewModel.state.collectAsState()
     val editMode = viewModel.editMode.collectAsState()
+    val context = LocalContext.current.applicationContext
 
     Scaffold(
         topBar = { TopAppBar(
@@ -56,7 +58,7 @@ fun DetailReminderScreen(
                 DetailReminderEdit(
                     detailState = detailState,
                     onSave = {reminder ->
-                        viewModel.updateReminder(reminder)
+                        viewModel.updateReminder(reminder, context)
                         viewModel.changeEditMode()
                     },
                     onCancel = {

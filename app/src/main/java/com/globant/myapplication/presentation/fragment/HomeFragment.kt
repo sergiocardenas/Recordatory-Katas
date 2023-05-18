@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.globant.myapplication.R
 import com.globant.myapplication.presentation.screen.HomeScreen
+import com.globant.myapplication.presentation.utils.PresentationConstants.REMAINDER_ID
 import com.globant.myapplication.presentation.viewmodel.HomeViewModel
+import com.globant.myreminders.R
+import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
@@ -29,12 +29,26 @@ class HomeFragment : Fragment() {
             setContent {
                 HomeScreen(
                     viewModel = homeViewModel,
-                    onItemClicked = { goToActionNavigation(R.id.action_HomeFragment_to_DetailFragment) },
+                    onItemClicked = { id -> goToDetail(id) },
                     onAddItem = { goToActionNavigation(R.id.action_HomeFragment_to_CreateFragment) }
                 )
             }
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        homeViewModel.getReminderList()
+    }
+
+    private fun goToDetail(reminderID: Int){
+        val params = Bundle()
+        params.putInt(REMAINDER_ID, reminderID)
+        findNavController().navigate(
+            resId = R.id.action_HomeFragment_to_DetailFragment,
+            args = params
+        )
     }
 
     private fun goToActionNavigation(resActionId: Int){

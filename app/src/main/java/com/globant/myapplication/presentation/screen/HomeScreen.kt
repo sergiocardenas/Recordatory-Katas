@@ -18,7 +18,7 @@ import com.globant.myapplication.presentation.viewmodel.HomeViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onItemClicked: () -> Unit,
+    onItemClicked: (Int) -> Unit,
     onAddItem: () -> Unit,
 ) {
     val homeState = viewModel.state.collectAsState()

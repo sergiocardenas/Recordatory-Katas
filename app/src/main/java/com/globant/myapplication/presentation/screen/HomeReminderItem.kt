@@ -15,20 +15,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.globant.myapplication.R
 import com.globant.myapplication.presentation.state.ReminderState
 import com.globant.myapplication.presentation.state.Urgency
+import com.globant.myreminders.R
 
 @Composable
 fun HomeReminderItem(
     reminderItem: ReminderState,
-    onItemClicked: () -> Unit
+    onItemClicked: (Int) -> Unit
 ) {
     Card(
         elevation = 4.dp,
         modifier = Modifier
             .padding(16.dp)
-            .clickable{ onItemClicked() }
+            .clickable{ onItemClicked(reminderItem.id) }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
